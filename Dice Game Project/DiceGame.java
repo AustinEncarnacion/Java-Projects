@@ -2,132 +2,137 @@
 Austin Encarnacion
 Math 130-03
 Instructor: Mimi Rasky
-11/18/2022
-Lab#10 Class
+10/7/2022
+Lab #5
 */
-package buddy;
+
+package labs;
 import java.util.*;
-public class Buddy 
+public class DiceGame 
 {
-	public String name;
-	private String telephone;
-	public int age;
-	
-	private static int numMade;
-	private static ArrayList<Buddy> list = new ArrayList<>();
-	
-	//default
-	public Buddy()
-	{
-		this.name = "Carmen San Diego";
-		this.telephone = "";
-		this.age = 0;
-		Buddy pal = new Buddy(name, telephone, age);
-		list.add(pal);
-	}
-	
-	//half-custom 
-	public Buddy(String name, String telephone)
-	{
-		this.name = name;
-		this.telephone = setPhone(telephone);
-		Buddy pal = new Buddy(name, telephone, age);
-		list.add(pal);
-		Buddy.numMade++;
-	}
-	
-	//full-custom
-	public Buddy(String name, String telephone, int age)
-	{
-		this.name = name;
-		this.telephone = setPhone(telephone);
-		this.age = age;
-//		Buddy pal = new Buddy(name, telephone, this.age);
-//		list.add(pal);
-		Buddy.numMade++;
-	}
-	
-	public void setName(String name)
-	{
-		this.name = name;
-		Buddy.numMade++;
-	}
-	
-	public String setPhone(String s)
-	{
-		boolean valid = true;
-		for (int i = 0; i < s.length(); i++)
-		{
-			if(i <= 2 || i >= 4)
-				if (!Character.isDigit(s.charAt(i)))
-					valid = false;
-			if(i == 3)
-				if(s.charAt(i) != '-')
-					valid = false;
-		}
-		
-		if(valid)
-		{
-			this.telephone = s;
-			return s;
-		}
-		else
-			return "";
-	}
-	
-	public String getPhone()
-	{
-		return this.telephone;
-	}
-	
-	public String toString()
-	{
-		return String.format("%-6s %-20s %-7s %-13s %-5s %d","Name: ", name, "Phone: ", telephone, "Age: ", age);
-	}
-	
-	public static int getNumMade()
-	{
-		return numMade;
-	}
-	
-	public static void showBuddys()
-	{
-		for (int i = 0; i < list.size(); i++)
-		{
-			System.out.println(list.get(i).name);
-		}
-	}
-	
-	public boolean equals(Buddy a)
-	{
-		if (a == null)
-			return false;
-		if (this.getClass() != a.getClass())
-			return false;
-		if (this.name != a.name)
-			return false;
-		if (this.telephone != a.telephone)
-			return false;
-		if (this.age != a.age)
-			return false;
-		return true;
-	}
-	
-	public void speak()
+	public static void main(String[]args)
 	{
 		Random rand = new Random();
-		int num;
-		num = rand.nextInt(5) + 1;
+		Scanner keyboard = new Scanner(System.in);
+		String placebo;
+		int diceComputer, diceUser, loadedDice, loadedDice2, loadedComputer, loadedUser, compDiff, userDiff, userPoints = 0, compPoints = 0, tieGames = 0;
 		
-		if(num == 5)
-			System.out.println("Hey there!");
-		else if (num == 4)
-			System.out.println("How is your day going?");
-		else if (num == 3)
-			System.out.println("I like your outfit today!");
-		else if (num == 2)
-			System.out.println("I LOVE BABY EAGLES!");
-		else if (num == 1)
-			System.out.println(".....");
+		for (int i = 1; i <= 15; i++)
+		{
+			//Loaded dice roll for computer
+			loadedDice = rand.nextInt(100) + 1;
+			if (loadedDice < 57)
+				loadedComputer = 9;
+			else if (loadedDice < 64)
+				loadedComputer = 8;
+			else if (loadedDice < 70)
+				loadedComputer = 7;
+			else if (loadedDice < 75)
+				loadedComputer = 6;
+			else if (loadedDice < 80)
+				loadedComputer = 5;
+			else if (loadedDice < 85)
+				loadedComputer = 4;
+			else if (loadedDice < 90)
+				loadedComputer = 3;
+			else if (loadedDice < 95)
+				loadedComputer = 2;
+			else
+				loadedComputer = 1;
+			
+			//Loaded dice roll for User
+			loadedDice2 = rand.nextInt(100) + 1;
+			if (loadedDice2 < 57)
+				loadedUser = 9;
+			else if (loadedDice2 < 64)
+				loadedUser = 8;
+			else if (loadedDice2 < 70)
+				loadedUser = 7;
+			else if (loadedDice2 < 75)
+				loadedUser = 6;
+			else if (loadedDice2 < 80)
+				loadedUser = 5;
+			else if (loadedDice2 < 85)
+				loadedUser = 4;
+			else if (loadedDice2 < 90)
+				loadedUser = 3;
+			else if (loadedDice2 < 95)
+				loadedUser = 2;
+			else
+				loadedUser = 1;
+			
+			//Random dice roll for user and computer
+			diceUser = rand.nextInt(9) + 1;
+			userDiff = Math.abs(diceUser - loadedUser); //Calculated difference between loaded dice and random dice for user
+			diceComputer = rand.nextInt(9) + 1;
+			compDiff = Math.abs(diceComputer - loadedComputer); //Calculated difference between loaded dice and random dice for computer
+		
+			//Format for results for computer
+			System.out.println("Computer Turn Round #" + i);
+			System.out.println("- - - - - - - - - - - - - - - -");
+			System.out.println("Normal Die: " + diceComputer);
+			System.out.println("Loaded Die: " + loadedComputer);
+			System.out.println("Difference: " + compDiff);
+			System.out.println();
+			System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - -");
+			
+			//If-else for user-interaction to roll their turn
+			if (i < 15)
+			{
+				System.out.print("TEST YOUR LUCK AND PRESS 'ENTER' TO ROLL YOUR DICE!!\n- - - - - - - - - - - - - - - - - - - - - - - - - - -");
+				placebo = keyboard.nextLine();
+			}
+			else
+			{
+				System.out.print("LAST CHANCE TO GET A GOOD ROLL! (press enter)\n- - - - - - - - - - - - - - - - - - - - - - - - - - -");
+				placebo = keyboard.nextLine();
+			}
+			//User roll results
+			System.out.println();
+			System.out.println("User Turn Round #" + i);
+			System.out.println("- - - - - - - - - - - - - - - -");
+			System.out.println("Normal Die: " + diceUser);
+			System.out.println("Loaded Die: " + loadedUser);
+			System.out.println("Difference: " + userDiff);
+			System.out.println();
+			
+			//Determination of who wins the round
+			if (userDiff > compDiff)
+			{
+				System.out.println("The User wins this round!!!!!!!");
+				userPoints++;
+			}
+			else if (compDiff > userDiff)
+			{
+				System.out.println("The Computer wins this round!!!!!");
+				compPoints++;
+			}
+			else
+			{
+				System.out.println("Oh no, this round is a TIE!!");	
+				tieGames++;
+			}
+			System.out.println();
+			
+			//User interaction to continue onto the next round
+			if (i != 15) 
+			{	
+			System.out.printf("- - - - Press ENTER to continue to Round #%d - - - -", i + 1);
+			placebo = keyboard.nextLine();
+			System.out.println();
+			}
+		}
+		
+		//Final results to see who won the game overall
+		System.out.println();
+		System.out.println("Total Number of Computer Wins: " + compPoints + "\n");
+		System.out.println("    Total Number of User Wins: " + userPoints + "\n");
+		System.out.println("    Total Number of tie games: " + tieGames + "\n");
+		if (userPoints > compPoints)
+			System.out.println("The User is the GRAND CHAMPION!");
+		else if (compPoints > userPoints)
+			System.out.println("The Computer is the GRAND CHAMPION!");
+		else 
+			System.out.println("TIE GAME!!! Nobody wins this game, sorry...");
 	}
 }
